@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CommonTypes.h"
+
 #include <string>
 #include <fstream>
 
@@ -13,4 +15,6 @@ public:
         {
             // open file here
         }
+    
+    Auth::LOGIN_ATTEMPT_RESULT TryLogin(const Auth::LoginPassword& loginPassword);
 };

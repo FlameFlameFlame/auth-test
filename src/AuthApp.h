@@ -2,19 +2,19 @@
 
 #include "Authenticator.h"
 #include "AuthIO.h"
+#include "CommonTypes.h"
 
-enum class STATE
+enum class APP_STATE
 {
-    APP_STATE_GREETING = 0,
-    APP_STATE_CREATE_LOGIN,
-    APP_STATE_LOGIN,
-    APP_STATE_LOGGED_IN
-}
-APP_STATE;
+    GREETING = 0,
+    CREATE_LOGIN,
+    LOGIN,
+    LOGGED_IN
+};
 
 class AuthApp {
 private:
-    STATE appState;
+    APP_STATE appState;
 
     Authenticator auth;
     AuthIO io;
@@ -22,7 +22,7 @@ public:
     AuthApp(Authenticator& i_auth, AuthIO& i_io):
         auth(i_auth), io(i_io)
     {
-        appState = STATE::APP_STATE_GREETING;
+        appState = APP_STATE::GREETING;
     }
     ~AuthApp();
 

@@ -7,15 +7,15 @@ void AuthApp::runApp()
     switch (appState)
     {
         case APP_STATE::GREETING:
-        // check if password is saved and login or print login prompt
+            io.PrintLoginOrLoginCreationPromt(std::cout);
         break;
 
         case APP_STATE::LOGIN:
-        // display login prompt
+            io.GetCredentialsFromUser(std::cout, std::cin);
         break;
 
         case APP_STATE::CREATE_LOGIN:
-        // create new login
+            io.PrintCreateLoginPromt(std::cout, std::cin);
         break;
 
         case APP_STATE::LOGGED_IN:

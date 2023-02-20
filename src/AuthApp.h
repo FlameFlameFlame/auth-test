@@ -24,7 +24,5 @@ public:
     {
         appState = APP_STATE::GREETING;
     }
-    ~AuthApp();
-
     void runApp();
 };

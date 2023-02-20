@@ -8,7 +8,7 @@ namespace Auth
     struct LoginPassword
     {
         std::string login;
-        std::string passwordHash;
+        std::string password;
     };
 
     enum class LOGIN_ATTEMPT_RESULT

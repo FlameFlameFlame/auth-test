@@ -4,5 +4,9 @@
 
 int main()
 {
+    Authenticator auth("somefile");
+    AuthIO io;
+    AuthApp app(auth, io);
+    app.runApp();
     return 0;
 }

@@ -16,5 +16,6 @@ public:
             // open file here
         }
     
-    Auth::LOGIN_ATTEMPT_RESULT TryLogin(const Auth::LoginPassword& loginPassword);
+    Auth::LOGIN_ATTEMPT_RESULT tryLogin(const Auth::LoginPassword& loginPassword);
+    Auth::CREATE_LOGING_ATTEMPT_RESULT tryCreateNewLogin (const Auth::LoginPassword& loginPassword);
 };

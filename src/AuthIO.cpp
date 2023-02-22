@@ -5,12 +5,38 @@ AuthIO::AuthIO()
     
 }
 
-void AuthIO::PrintLoginOrLoginCreationPromt(std::ostream &s) const
+Auth::APP_ACTION AuthIO::printLoginOrLoginCreationPromt(std::ostream &s, std::istream &i) const
 {
-    s << "Type 'l' to login or 'c' to create new credentials" << std::endl;
+    s << "Type 'l' to login, 'c' to create new credentials or 'e' to exit" << std::endl;
+    char answer;
+    i >> answer;
+    while (1)
+    {
+        switch (answer)
+        {
+        case 'l':
+            return Auth::APP_ACTION::LOGIN;
+            break;
+        case 'c':
+            return Auth::APP_ACTION::CREATE_NEW_LOGIN;
+            break;
+        case 'e':
+            return Auth::APP_ACTION::EXIT;
+            break;
+        default:
+            s << "Incorrect input" << std::endl;
+            break;
+        }
+    }
+
 }
 
-Auth::LoginPassword AuthIO::GetCredentialsFromUser(std::ostream& s, std::istream& i)
+void AuthIO::printLoginCreationError(std::ostream &s) const
+{
+    s << "This login already exists" << std::endl;
+}
+
+Auth::LoginPassword AuthIO::getCredentialsFromUser(std::ostream& s, std::istream& i)
 {
     Auth::LoginPassword lp;
     s << "login: ";
@@ -20,15 +46,20 @@ Auth::LoginPassword AuthIO::GetCredentialsFromUser(std::ostream& s, std::istream
     return lp;
 }
 
-void AuthIO::PrintLoginError(std::ostream &s) const
+void AuthIO::printSuccessMessage(std::ostream& s) const
+{
+    s << "Success!" << std::endl;
+}
+
+void AuthIO::printLoginError(std::ostream &s) const
 {
     s << "Incorrect credentials" << std::endl;
 }
 
-std::optional<Auth::LoginPassword> AuthIO::PrintCreateLoginPromt(std::ostream& s, std::istream& i) const
+std::optional<Auth::LoginPassword> AuthIO::printCreateLoginPromt(std::ostream& s, std::istream& i) const
 {
     Auth::LoginPassword lp;
-    
+
     s << "Enter new login: ";
     i >> lp.login;
     std::string passwordAttempt1;
@@ -37,14 +68,13 @@ std::optional<Auth::LoginPassword> AuthIO::PrintCreateLoginPromt(std::ostream& s
     s << "Repeat the password: ";
     i >> lp.password;
 
-    if (lp.password == passwordAttempt1)
+    if (lp.password != passwordAttempt1)
     {
         s << "Password mismatch" << std::endl;
-        return std::optional(lp);
+        return std::nullopt;
     }
     else
     {
-        s << "Success" << std::endl;
-        return std::nullopt;
+        return std::optional(lp);
     }
 }

@@ -9,7 +9,8 @@ enum class APP_STATE
     GREETING = 0,
     CREATE_LOGIN,
     LOGIN,
-    LOGGED_IN
+    LOGGED_IN,
+    EXIT
 };
 
 class AuthApp {
@@ -25,4 +26,11 @@ public:
         appState = APP_STATE::GREETING;
     }
     void runApp();
+
+    void runGreeting(); 
+
+    void doCreatePromt();
+    void doLogin();
+    void doLogout();
+    void exit();
 };

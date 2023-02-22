@@ -17,4 +17,18 @@ namespace Auth
         INCORRECT_CRED,
         OGIN_NOT_FOUND
     };
+
+    enum class CREATE_LOGING_ATTEMPT_RESULT
+    {
+        SUCCESS = 0,
+        LOGIN_ALREADY_EXISTS
+    };
+
+    enum class APP_ACTION
+    {
+        LOGIN = 0,
+        CREATE_NEW_LOGIN,
+        LOGOUT,
+        EXIT
+    };
 } 

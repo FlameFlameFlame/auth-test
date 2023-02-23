@@ -29,6 +29,7 @@ namespace Auth
         LOGIN = 0,
         CREATE_NEW_LOGIN,
         LOGOUT,
-        EXIT
+        EXIT,
+        CONTINUE
     };
 } 

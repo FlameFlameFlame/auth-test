@@ -4,18 +4,29 @@
 
 #include <optional>
 #include <sstream>
+#include <functional>
 
 class AuthIO
 {
+private:
+    std::ostream& out;
+    std::istream& in;
 public:
-    AuthIO();
-    void printSuccessMessage(std::ostream& s) const;
+    AuthIO(std::ostream& outstream, std::istream& instream):
+    out(outstream), in(instream)
+    {
 
-    Auth::APP_ACTION printLoginOrLoginCreationPromt(std::ostream& s, std::istream& i) const;
-    void printLoginCreationError(std::ostream& s) const;
+    } 
 
-    Auth::LoginPassword getCredentialsFromUser(std::ostream& s, std::istream& i);
-    void printLoginError(std::ostream& s) const;
+    void printSuccessMessage();
 
-    std::optional<Auth::LoginPassword> printCreateLoginPromt(std::ostream& s, std::istream& i) const;
+    Auth::APP_ACTION printLoginOrLoginCreationPromt();
+    void printLoginCreationError();
+
+    Auth::APP_ACTION printLogoutOrExitPromt(const std::string& loggedUser);
+
+    Auth::LoginPassword getCredentialsFromUser();
+    void printLoginError();
+
+    std::optional<Auth::LoginPassword> printCreateLoginPromt();
 };

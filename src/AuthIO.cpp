@@ -1,18 +1,15 @@
 #include "AuthIO.h"
 
-AuthIO::AuthIO()
-{
-    
-}
 
-Auth::APP_ACTION AuthIO::printLoginOrLoginCreationPromt(std::ostream &s, std::istream &i) const
+Auth::APP_ACTION AuthIO::printLoginOrLoginCreationPromt()
 {
-    s << "Type 'l' to login, 'c' to create new credentials or 'e' to exit" << std::endl;
-    char answer;
-    i >> answer;
+    out << "Type 'l' to login, 'c' to create new credentials or 'e' to exit" << std::endl;
+    char action;
     while (1)
     {
-        switch (answer)
+        in >> action;
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch (action)
         {
         case 'l':
             return Auth::APP_ACTION::LOGIN;
@@ -24,53 +21,75 @@ Auth::APP_ACTION AuthIO::printLoginOrLoginCreationPromt(std::ostream &s, std::is
             return Auth::APP_ACTION::EXIT;
             break;
         default:
-            s << "Incorrect input" << std::endl;
+            out << "Incorrect input" << std::endl;
             break;
         }
     }
 
 }
 
-void AuthIO::printLoginCreationError(std::ostream &s) const
+void AuthIO::printLoginCreationError()
 {
-    s << "This login already exists" << std::endl;
+    out << "This login already exists" << std::endl;
 }
 
-Auth::LoginPassword AuthIO::getCredentialsFromUser(std::ostream& s, std::istream& i)
+Auth::APP_ACTION AuthIO::printLogoutOrExitPromt(const std::string& loggedUser)
+{
+    out << "Successfully logged in as " << loggedUser << std::endl;
+    out << "Enter 'l' to logout or 'e' to exit" << std::endl;
+    char action;
+    switch (action)
+    {
+        in >> action;
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        case 'l':
+            return Auth::APP_ACTION::LOGOUT;
+        break;
+        case 'e':
+            return Auth::APP_ACTION::EXIT;
+        break;
+        default:
+            out << "Incorrect input" << std::endl;
+        break;
+    }
+    return Auth::APP_ACTION::CONTINUE;
+}
+
+Auth::LoginPassword AuthIO::getCredentialsFromUser()
 {
     Auth::LoginPassword lp;
-    s << "login: ";
-    i >> lp.login;
-    s << "password: ";
-    i >> lp.password;
+    out << "login: ";
+    in >> lp.login;
+    out << "password: ";
+    in >> lp.password;
     return lp;
 }
 
-void AuthIO::printSuccessMessage(std::ostream& s) const
+void AuthIO::printSuccessMessage()
 {
-    s << "Success!" << std::endl;
+    out << "Success!" << std::endl;
 }
 
-void AuthIO::printLoginError(std::ostream &s) const
+void AuthIO::printLoginError()
 {
-    s << "Incorrect credentials" << std::endl;
+    out << "Incorrect credentials" << std::endl;
 }
 
-std::optional<Auth::LoginPassword> AuthIO::printCreateLoginPromt(std::ostream& s, std::istream& i) const
+std::optional<Auth::LoginPassword> AuthIO::printCreateLoginPromt()
 {
     Auth::LoginPassword lp;
 
-    s << "Enter new login: ";
-    i >> lp.login;
+    out << "Enter new login: ";
+    in >> lp.login;
     std::string passwordAttempt1;
-    s << "Enter new password: ";
-    i >> passwordAttempt1;
-    s << "Repeat the password: ";
-    i >> lp.password;
+    out << "Enter new password: ";
+    in >> passwordAttempt1;
+    out << "Repeat the password: ";
+    in >> lp.password;
 
     if (lp.password != passwordAttempt1)
     {
-        s << "Password mismatch" << std::endl;
+        out << "Password mismatch" << std::endl;
         return std::nullopt;
     }
     else

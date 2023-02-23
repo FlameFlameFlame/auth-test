@@ -34,7 +34,7 @@ void AuthApp::runApp()
 
 void AuthApp::runGreeting()
 {
-    const auto action = io.printLoginOrLoginCreationPromt(std::cout, std::cin);
+    const auto action = io.printLoginOrLoginCreationPromt();
     switch (action)
     {
     case Auth::APP_ACTION::LOGIN:
@@ -53,31 +53,48 @@ void AuthApp::runGreeting()
 
 void AuthApp::doCreatePromt()
 {  
-    const auto createLoginResult = io.printCreateLoginPromt(std::cout, std::cin);
+    const auto createLoginResult = io.printCreateLoginPromt();
     if (createLoginResult)
     {
         const auto result = auth.tryCreateNewLogin(createLoginResult.value());
-        io.printSuccessMessage(std::cout);
+        io.printSuccessMessage();
         appState = APP_STATE::GREETING;
     }
     else
     {
-        io.printLoginCreationError(std::cout);
+        io.printLoginCreationError();
+    }
+}
+
+void AuthApp::doLogoutOrExitPromt()
+{
+    const auto currentUser = auth.getLoggedInUser().value();
+    const auto nextAction = io.printLogoutOrExitPromt(currentUser);
+    switch (nextAction)
+    {
+    case Auth::APP_ACTION::EXIT:
+        appState = APP_STATE::EXIT;
+    break;
+    case Auth::APP_ACTION::LOGOUT:
+        appState = APP_STATE::GREETING;
+    break;
+    default:
+    break;
     }
 }
 
 void AuthApp::doLogin()
 {
-    const auto loginResult = io.getCredentialsFromUser(std::cout, std::cin);
+    const auto loginResult = io.getCredentialsFromUser();
     const auto loginAttemptResult = auth.tryLogin(loginResult);
     if (loginAttemptResult == Auth::LOGIN_ATTEMPT_RESULT::SUCCESS)
     {
-        io.printSuccessMessage(std::cout);
+        io.printSuccessMessage();
         appState = APP_STATE::LOGGED_IN;
     }
     else
     {
-        io.printLoginError(std::cout);
+        io.printLoginError();
         appState = APP_STATE::GREETING;
     }
 }

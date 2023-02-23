@@ -30,6 +30,7 @@ public:
     void runGreeting(); 
 
     void doCreatePromt();
+    void doLogoutOrExitPromt();
     void doLogin();
     void doLogout();
     void exit();

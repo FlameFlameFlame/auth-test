@@ -27,11 +27,9 @@ public:
     }
     void runApp();
 
-    void runGreeting(); 
+    void doGreetingPrompt(); 
 
-    void doCreatePromt();
-    void doLogoutOrExitPromt();
+    void doCreateLoginPrompt();
+    void doLogoutOrExitPrompt();
     void doLogin();
-    void doLogout();
-    void exit();
 };

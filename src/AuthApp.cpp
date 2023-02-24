@@ -10,7 +10,7 @@ void AuthApp::runApp()
         switch (appState)
         {
             case APP_STATE::GREETING:
-                runGreeting();
+                doGreetingPrompt();
             break;
 
             case APP_STATE::LOGIN:
@@ -18,11 +18,11 @@ void AuthApp::runApp()
             break;
 
             case APP_STATE::CREATE_LOGIN:
-                doCreatePromt();
+                doCreateLoginPrompt();
             break;
 
             case APP_STATE::LOGGED_IN:
-            // prompt to logout/quit app
+                doLogoutOrExitPrompt();
             break;
 
             case APP_STATE::EXIT:
@@ -32,7 +32,7 @@ void AuthApp::runApp()
     }
 }
 
-void AuthApp::runGreeting()
+void AuthApp::doGreetingPrompt()
 {
     const auto action = io.printLoginOrLoginCreationPromt();
     switch (action)
@@ -51,7 +51,7 @@ void AuthApp::runGreeting()
     }
 }
 
-void AuthApp::doCreatePromt()
+void AuthApp::doCreateLoginPrompt()
 {  
     const auto createLoginResult = io.printCreateLoginPromt();
     if (createLoginResult)
@@ -66,7 +66,7 @@ void AuthApp::doCreatePromt()
     }
 }
 
-void AuthApp::doLogoutOrExitPromt()
+void AuthApp::doLogoutOrExitPrompt()
 {
     const auto currentUser = auth.getLoggedInUser().value();
     const auto nextAction = io.printLogoutOrExitPromt(currentUser);
